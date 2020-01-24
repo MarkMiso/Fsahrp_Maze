@@ -10,8 +10,8 @@ type state = {
     player : sprite
 }
 
-let W = 40
-let H = 40
+let W = 20
+let H = 20
 
 let main () =       
     let engine = new engine (W, H)
@@ -33,7 +33,7 @@ let main () =
         
         if (i) then
             if (y_positon = e0_position) then
-                let condition = Demo.main_game(W, H)
+                let condition = Game_mode1.main_game(W, H)
                 End.End(W, H, condition)
 
             elif (y_positon = e1_position) then

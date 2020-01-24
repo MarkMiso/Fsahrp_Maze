@@ -15,7 +15,8 @@ let main_game (W, H) =
     // initialize engine and maze
     let engine = new engine (W, H)
     let m = maze.generate (W - 4, H - 4)
-    let (p_x, p_y) = m.maze_entrance
+    let (p_x, p_y) = m.rnd_room
+    let (e_x, e_y) = m.rnd_room
     let mutable is_exit = false
 
     let my_update (key : ConsoleKeyInfo) (screen : wronly_raster) (st : state) =
@@ -28,14 +29,14 @@ let main_game (W, H) =
             | 'd' -> 1., 0.
             | _   -> 0., 0.
 
-        let player_x = int st.player.x
-        let player_y = int st.player.y
-        is_exit <- m.is_exit(int dx, int dy, player_x - 1, player_y - 3)
+        let n_x = int (st.player.x + dx) - 1
+        let n_y = int (st.player.y + dy) - 3
+        is_exit <- (e_x = n_x) && (e_y = n_y)
 
         // moove + win conditions
         if (is_exit) then
             st, true
-        elif (m.is_possible_path (int dx, int dy, player_x - 1, player_y - 3)) then
+        elif (m.is_possible_path (0, 0, n_x, n_y)) then
             st.player.move_by (dx, dy)
             st, key.KeyChar = 'q'
         else
@@ -44,6 +45,7 @@ let main_game (W, H) =
     // create player and maze sprites
     let player = engine.create_and_register_sprite (image.point (pixel.filled Color.Red), p_x + 1, p_y + 3, 1)
     ignore <| engine.create_and_register_sprite (image.maze (m, W - 4, H - 4,  pixel.filled Color.Gray), 1, 3, 3)
+    ignore <| engine.create_and_register_sprite (image.point (pixel.filled Color.Blue), e_x + 1, e_y + 3, 1)
 
     // initialize state
     let st0 = { 

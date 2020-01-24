@@ -19,7 +19,6 @@ type cell () =
     member val room : bool = true with get, set                // indica l'angolo in basso a destra della cella  2 * 2, utilizzato come controllo per vedere se la cella è stata generata
     member val wall_up : bool = true with get, set             // indica l'angolo in alto a destra della cella  2 * 2
     member val wall_left : bool = true with get, set           // indica l'angolo in basso a sinistra della cella  2 * 2
-    member val exit : bool = false with get, set               // indica se la cella è l'uscita del labirinto
 
     // metodo per rimuovere un muro data una direzione
     member this.remove_wall (d : direction) =
@@ -31,10 +30,6 @@ type cell () =
     // metodo per seganre una cella come visitata
     member this.mark_created =
         this.room <- false
-
-    //metodo per segnare una cella come uscita del labirinto
-    member this.mark_exit =
-        this.exit <- true
 
 
 // tipo labirinto foramto da un array di celle 
@@ -53,14 +48,14 @@ type maze (w, h) =
     // date delle coordinate x e y ritorna l'elemento del labirinto coorispondente 
     member private this.Gcoord_to_cell (g_x, g_y) =
         match (g_x, g_y) with
-        |(x, y) when (x % 2 = 0) && (y % 2 <> 0) -> (this.cell(g_x / 2, g_y / 2).wall_left, false)
-        |(x, y) when (x % 2 = 0) && (y % 2 = 0) -> (this.cell(g_x / 2, g_y / 2).corner, false)
-        |(x, y) when (x % 2 <> 0) && (y % 2 <> 0) -> (this.cell(g_x / 2, g_y / 2).room, this.cell(g_x / 2, g_y / 2).exit)
-        |(x, y) when (x % 2 <> 0) && (y % 2 = 0) -> (this.cell(g_x / 2, g_y / 2).wall_up, false)
-        |_ -> (false, false)
+        |(x, y) when (x % 2 = 0) && (y % 2 <> 0) -> (this.cell(g_x / 2, g_y / 2).wall_left)
+        |(x, y) when (x % 2 = 0) && (y % 2 = 0) -> (this.cell(g_x / 2, g_y / 2).corner)
+        |(x, y) when (x % 2 <> 0) && (y % 2 <> 0) -> (this.cell(g_x / 2, g_y / 2).room)
+        |(x, y) when (x % 2 <> 0) && (y % 2 = 0) -> (this.cell(g_x / 2, g_y / 2).wall_up)
+        |_ -> false
 
     // metodo per selezionare una cella randomica (utilizzato per scegliere la cella di entrata del labirinto)
-    member this.maze_entrance =
+    member this.rnd_room =
         let x = rnd_int 0 (w - 1)
         let y = rnd_int 0 (h - 1)
 
@@ -68,13 +63,7 @@ type maze (w, h) =
 
     // data una direzione e le coordinate della cella in cui ti trovi controlla se è possibile muoversi nella determinata posizione
     member this.is_possible_path (dx, dy, x, y) =
-        let (b1, b2) = this.Gcoord_to_cell(x + dx, y + dy)
-        not b1
-
-    // data una direzione e le coordinate della cella in cui ti trovi controlla se è l'uscita del labirinto
-    member this.is_exit (dx, dy, x, y) =
-        let (b1, b2) = this.Gcoord_to_cell(x + dx, y + dy)
-        b2
+        not (this.Gcoord_to_cell(x + dx, y + dy))
 
     // metodo che data una direzioe e le coordinate di una cella "costruisce" la cella corrispondente alla direzione
     member private this.build (d : direction, x : int, y : int) =
@@ -143,8 +132,4 @@ type maze (w, h) =
         ignore <| maze_f.cell(0, 0).mark_created
         ignore <| backtracker maze_f 0 0
 
-        let e_x = rnd_int 0 (w / 2)
-        let e_y = rnd_int 0 (h / 2)
-
-        ignore <| maze_f.cell(e_x, e_y).mark_exit
         maze_f

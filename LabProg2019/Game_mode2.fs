@@ -15,9 +15,10 @@ type state = {
 let main_game (W, H) =
     // intialize engine, maze and solver
     let engine = new engine (W, H)
-    let m = new maze(W, H)
-    let (p_x, p_y) = m.maze_entrance
-    let mutable path = Ai.maze_solver1 (m, p_x, p_y)
+    let m = maze.generate (W - 4, H - 4)
+    let (p_x, p_y) = m.rnd_room
+    let (e_x, e_y) = m.rnd_room
+    let mutable path = Ai.maze_solver1 (m, p_x, p_y, e_x, e_y)
     let mutable is_exit = false
 
     let my_update (key0 : ConsoleKeyInfo option) (screen : wronly_raster) (st : state) =
@@ -26,13 +27,11 @@ let main_game (W, H) =
         |[] -> 
             st, true
         |(x, y)::xs ->
-            st.player.x <- float x
+            st.player.x <- float (x + 1)
             st.player.y <- float (y + 3)
 
-            is_exit <- m.is_exit(0, 0, x, y)
+            is_exit <- (e_x = x) && (e_y = y)
             path <- xs
-
-            //qLog.debug "%A" (x, y) 
 
             if (is_exit) then
                 st, true
@@ -46,8 +45,9 @@ let main_game (W, H) =
             
 
     // create player and maze sprites
-    let player = engine.create_and_register_sprite (image.point (pixel.filled Color.Red), p_x, p_y + 3, 1)
-    ignore <| engine.create_and_register_sprite (image.maze (m, W - 2, H - 3,  pixel.filled Color.Gray), 0, 3, 3)
+    let player = engine.create_and_register_sprite (image.point (pixel.filled Color.Red), p_x + 1, p_y + 3, 1)
+    ignore <| engine.create_and_register_sprite (image.maze (m, W - 4, H - 4,  pixel.filled Color.Gray), 1, 3, 3)
+    ignore <| engine.create_and_register_sprite (image.point (pixel.filled Color.Blue), e_x + 1, e_y + 3, 1)
 
     // initialize state
     let st0 = { 
