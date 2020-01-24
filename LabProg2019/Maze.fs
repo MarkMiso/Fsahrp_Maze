@@ -59,7 +59,10 @@ type maze (w, h) =
         let x = rnd_int 0 (w - 1)
         let y = rnd_int 0 (h - 1)
 
-        (x * 2 + 1, y * 2 + 1)
+        if (this.cell(x, y).room) then
+            this.rnd_room
+        else
+            (x * 2 + 1, y * 2 + 1)
 
     // data una direzione e le coordinate della cella in cui ti trovi controlla se è possibile muoversi nella determinata posizione
     member this.is_possible_path (dx, dy, x, y) =
@@ -121,13 +124,13 @@ type maze (w, h) =
             let (result, n_x, n_y) = moove (dir) 1
 
             if (result) then
-                let (_x, _y) = backtracker m n_x n_y
-                if ((_x = 0) && (_y = 0)) then
-                    (0, 0)
+                let exit = backtracker m n_x n_y
+                if (exit) then
+                    true
                 else
                     backtracker m x y
             else
-                (x, y)
+                (x = 5) && (y = 5)
 
         ignore <| maze_f.cell(0, 0).mark_created
         ignore <| backtracker maze_f 0 0
