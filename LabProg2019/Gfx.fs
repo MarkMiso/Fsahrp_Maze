@@ -144,9 +144,11 @@ type wronly_raster (w, h) =
               loop x y m      
         loop x y m
 
+    /// Draw a single pixel in the specified s and y
     member this.draw_point (x0, y0, px) =
         this.plot (x0, y0, px)
 
+    /// Draw a maze given the maze object
     member this.draw_maze (m : maze, w, h, px) =
         let plot x0 y0 = this.plot (x0, y0, px)
         let mutable i = 0
@@ -167,6 +169,7 @@ type wronly_raster (w, h) =
         this.draw_line (0, h, w - 1, h, px) 
         if((h % 2) <> 0) then this.draw_line (0, h - 1, w - 1, h - 1, px) 
 
+    /// Draw a pixel for every element of a list in the corresponding x and y position
     member this.draw_path (path, px) =
         match path with
         |[] -> ()
@@ -326,17 +329,20 @@ type image (w, h, pixels : pixel[]) =
         Option.iter (fun px -> i.flood_fill (i.width / 2, i.height / 2, px)) filled_px
         i
 
+    /// Create a new image object composed of just a single pixel
     static member point (px) =
         let i = new image (1, 1)
         i.draw_point (0, 0, px)
         i
 
+    /// Create a new image object maze of the dimention w, h
     static member maze (m : maze, w, h, px, ?filled_px) =
         let i = new image (w + 1, h + 1)
         i.draw_maze (m, w, h, px)
         Option.iter (fun px -> i.flood_fill (1, 1, px)) filled_px
         i
         
+    /// Create a new image object to rapprenent text
     static member text (s : string, fg, ?bg) = 
         let i = new image (String.length s, (String.length (String.filter ((=) '\n') s)) + 1)
 
@@ -346,6 +352,7 @@ type image (w, h, pixels : pixel[]) =
             |Some x -> i.draw_text (s, 0, 0, fg, x)
         i
 
+    /// Create a new image object to rappresent al list of x, y coordinates
     static member path (path : (int * int) list, w, h, px) =
         let i = new image (w, h)
         i.draw_path (path, px)
