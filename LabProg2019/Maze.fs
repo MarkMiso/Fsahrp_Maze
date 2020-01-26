@@ -130,7 +130,7 @@ type maze (w, h) =
                 else
                     backtracker m x y
             else
-                (x = 5) && (y = 5)
+                (x = 0) && (y = 0)
 
         ignore <| maze_f.cell(0, 0).mark_created
         ignore <| backtracker maze_f 0 0

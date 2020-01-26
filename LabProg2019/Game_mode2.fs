@@ -18,7 +18,7 @@ let main_game (W, H) =
     let m = maze.generate (W - 4, H - 4)
     let (p_x, p_y) = m.rnd_room
     let (e_x, e_y) = m.rnd_room
-    let mutable path = Ai.maze_solver1 (m, p_x, p_y, e_x, e_y)
+    let mutable path = Ai.maze_solver2 (m, p_x, p_y, e_x, e_y)
     let mutable is_exit = false
 
     let my_update (key0 : ConsoleKeyInfo option) (screen : wronly_raster) (st : state) =
@@ -46,7 +46,7 @@ let main_game (W, H) =
 
     // create player and maze sprites
     let player = engine.create_and_register_sprite (image.point (pixel.filled Color.Red), p_x + 1, p_y + 3, 1)
-    ignore <| engine.create_and_register_sprite (image.maze (m, W - 4, H - 4,  pixel.filled Color.Gray), 1, 3, 3)
+    ignore <| engine.create_and_register_sprite (image.maze (m, W - 4, H - 4,  pixel.filled Color.Gray), 1, 3, 0)
     ignore <| engine.create_and_register_sprite (image.point (pixel.filled Color.Blue), e_x + 1, e_y + 3, 1)
 
     // initialize state

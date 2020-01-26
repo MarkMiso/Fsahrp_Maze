@@ -50,7 +50,7 @@ type wronly_raster (w, h) =
     abstract member width : int
     /// The height of this raster.
     abstract member height : int
-    default __.width = w
+    default __.width = w 
     default __.height = h
 
     /// Low-level unsafe plot primitive. Unsafe means no boundary check is performed, thus failing at runtime when coordinates are out of boundaries.
@@ -166,6 +166,13 @@ type wronly_raster (w, h) =
         if ((w % 2) <> 0) then this.draw_line (w - 1, 0, w - 1, h - 1, px)
         this.draw_line (0, h, w - 1, h, px) 
         if((h % 2) <> 0) then this.draw_line (0, h - 1, w - 1, h - 1, px) 
+
+    member this.draw_path (path, px) =
+        match path with
+        |[] -> ()
+        |(x, y)::ls -> 
+            this.plot (x, y, px)
+            this.draw_path (ls, px)
 
     override this.ToString () = sprintf "wronly_raster (%d, %d)" this.width this.height
         
@@ -327,7 +334,7 @@ type image (w, h, pixels : pixel[]) =
     static member maze (m : maze, w, h, px, ?filled_px) =
         let i = new image (w + 1, h + 1)
         i.draw_maze (m, w, h, px)
-        Option.iter (fun px -> i.flood_fill (i.width / 2, i.height / 2, px)) filled_px
+        Option.iter (fun px -> i.flood_fill (1, 1, px)) filled_px
         i
         
     static member text (s : string, fg, ?bg) = 
@@ -337,6 +344,11 @@ type image (w, h, pixels : pixel[]) =
             match bg with
             |None -> i.draw_text (s, 0, 0, fg)
             |Some x -> i.draw_text (s, 0, 0, fg, x)
+        i
+
+    static member path (path : (int * int) list, w, h, px) =
+        let i = new image (w, h)
+        i.draw_path (path, px)
         i
 
 

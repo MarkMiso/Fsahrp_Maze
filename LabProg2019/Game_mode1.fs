@@ -44,7 +44,7 @@ let main_game (W, H) =
 
     // create player and maze sprites
     let player = engine.create_and_register_sprite (image.point (pixel.filled Color.Red), p_x + 1, p_y + 3, 1)
-    ignore <| engine.create_and_register_sprite (image.maze (m, W - 4, H - 4,  pixel.filled Color.Gray), 1, 3, 3)
+    ignore <| engine.create_and_register_sprite (image.maze (m, W - 4, H - 4,  pixel.filled Color.Gray), 1, 3, 0)
     ignore <| engine.create_and_register_sprite (image.point (pixel.filled Color.Blue), e_x + 1, e_y + 3, 1)
 
     // initialize state

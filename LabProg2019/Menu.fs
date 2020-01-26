@@ -33,7 +33,7 @@ let main () =
         
         if (i) then
             if (y_positon = e0_position) then
-                let condition = Game_mode1.main_game(W, H)
+                let condition = Demo.main_game(W, H)
                 End.End(W, H, condition)
 
             elif (y_positon = e1_position) then
@@ -41,8 +41,7 @@ let main () =
                 End.End(W, H, condition)
 
             elif (y_positon = e2_position) then 
-                let condition = Game_mode3.main_game(W, H)
-                End.End(W, H, condition)
+                Game_mode3.main_game(W, H)
 
         if ((y_positon = e0_position && (dy = 2.))) || ((y_positon = e1_position) || (y_positon = e2_position && (dy = -2.))) then
             st.player.move_by (0., dy)

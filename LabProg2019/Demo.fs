@@ -29,14 +29,16 @@ let main_game (W, H) =
         let player_x = int st.player.x
         let player_y = int st.player.y
 
+        
+
         st.player.move_by(dx, dy)
         
         st, key.KeyChar = 'q'
 
     // create player and maze sprites
-    let player = engine.create_and_register_sprite (image.point (pixel.filled Color.Red), 5, 5, 1)
-    //ignore <| engine.create_and_register_sprite (image.rectangle (3, 3, pixel.filled Color.White, pixel.filled Color.Cyan), 10, 10, 0)
-    ignore <| engine.create_and_register_sprite (image.maze (m, 10, 10, pixel.filled Color.White, pixel.filled Color.Cyan), 10, 10, 0)
+    let player = engine.create_and_register_sprite (image.point (pixel.filled Color.Red), 15, 15, 1)
+    ignore <| engine.create_and_register_sprite (image.rectangle (3, 3, pixel.wall Color.White), 10, 10, 0)
+    //ignore <| engine.create_and_register_sprite (image.maze (m, 10, 10, pixel.filled Color.White, pixel.filled Color.Cyan), 3, 3, 0)
 
     // initialize state
     let st0 = { 

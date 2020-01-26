@@ -4,7 +4,8 @@ open Maze
 
 type Ai () = 
 
-    static member maze_solver0 (m : maze, p_x, p_y, e_x, e_y) =
+    static member maze_solver1 (m : maze, p_x, p_y, e_x, e_y, ?with_steps) =
+        let w_s = defaultArg with_steps false
         let mutable  path_steps = [(p_x, p_y)]
 
         let rec int_to_direction (dir : int) =
@@ -43,10 +44,14 @@ type Ai () =
                 else
                     backtracker (List.tail path)
 
-        List.rev (backtracker [p_x, p_y])
+        let l = List.rev (backtracker [p_x, p_y])
+
+        if w_s then path_steps
+        else l
         
 
-    static member maze_solver1 (m: maze, p_x, p_y, e_x, e_y)=
+    static member maze_solver2 (m: maze, p_x, p_y, e_x, e_y, ?with_steps)=
+        let w_s = defaultArg with_steps false
         let mutable path = []
         let mutable path_steps = []
 
@@ -70,4 +75,6 @@ type Ai () =
                     false
 
         ignore <| backtracker [(p_x, p_y)]
-        List.rev path
+
+        if w_s then path_steps
+        else List.rev path
