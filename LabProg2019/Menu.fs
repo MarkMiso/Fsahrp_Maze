@@ -10,8 +10,8 @@ type state = {
     player : sprite
 }
 
-let W = 20
-let H = 20
+let W = 50
+let H = 50
 
 let main () =       
     let engine = new engine (W, H)
@@ -33,7 +33,7 @@ let main () =
         
         if (i) then
             if (y_positon = e0_position) then
-                let condition = Demo.main_game(W, H)
+                let condition = Game_mode1.main_game(W, H)
                 End.End(W, H, condition)
 
             elif (y_positon = e1_position) then
@@ -48,11 +48,13 @@ let main () =
 
         st, key.KeyChar = 'q'
 
-    // create simple backgroud and player
+    // create pointer and text
     let player = engine.create_and_register_sprite (image.point (pixel.filled Color.Red), w - 2, int e0_position, 0)
     ignore <| engine.create_and_register_sprite (image.text ("Game mode 1", Color.White), w, int e0_position, 0)
     ignore <| engine.create_and_register_sprite (image.text ("Game mode 2", Color.White), w, int e1_position, 0)
     ignore <| engine.create_and_register_sprite (image.text ("Game mode 3", Color.White), w, int e2_position, 0)
+    ignore <| engine.create_and_register_sprite (image.text ("Press l to play", Color.Gray), (W - 15)/2, ((H - 3) / 2) + 8 , 0)
+    ignore <| engine.create_and_register_sprite (image.text ("Press q to quit", Color.Gray), (W - 15)/2, ((H - 3) / 2) + 10 , 0)
 
     // initialize state
     let st0 = { 

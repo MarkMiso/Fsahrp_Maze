@@ -192,6 +192,51 @@
  Global logger instance.    
 </summary>
 </member>
+<member name="M:LabProg2019.Maze.maze.is_possible_path(System.Int32,System.Int32,System.Int32,System.Int32)">
+<summary>
+ returns if a point in the maze is accessible ginven it&apos;s x + dx and y + dy
+</summary>
+</member>
+<member name="P:LabProg2019.Maze.maze.rnd_room">
+<summary>
+ returns the x and y of a randoma accessible point in the maze
+</summary>
+</member>
+<member name="M:LabProg2019.Maze.maze.generate(System.Int32,System.Int32)">
+<summary>
+ instantiates and generates the maze
+</summary>
+</member>
+<member name="M:LabProg2019.Maze.maze.cell(System.Int32,System.Int32)">
+<summary>
+ returns a cell given it&apos;s x and y
+</summary>
+</member>
+<member name="M:LabProg2019.Maze.maze.build(LabProg2019.Maze.direction,System.Int32,System.Int32)">
+<summary>
+ &quot;builds&quot; a cell ginven x y and the direction to build it
+</summary>
+</member>
+<member name="M:LabProg2019.Maze.maze.Gcoord_to_cell(System.Int32,System.Int32)">
+<summary>
+ returns the single element of a cell given it&apos;s x and y
+</summary>
+</member>
+<member name="M:LabProg2019.Maze.cell.remove_wall(LabProg2019.Maze.direction)">
+<summary>
+ removes the wall in the specified direction
+</summary>
+</member>
+<member name="P:LabProg2019.Maze.cell.mark_created">
+<summary>
+ mark a cell as generated
+</summary>
+</member>
+<member name="T:LabProg2019.Maze.cell">
+<summary>
+ rappresents a 2*2 cell of the maze
+</summary>
+</member>
 <member name="F:LabProg2019.Gfx.region.parent@">
 <summary>
  Get the parent raster.
@@ -582,6 +627,16 @@
  Calling one of the loop methods make the engine start its render loop.
  Sprites can be registered for making the engine draw them each frame automatically in ascending z-order.
  The order of operations for each frame are: clear buffer; render sprites; call user update function; commit frame; switch buffer.
+</summary>
+</member>
+<member name="M:LabProg2019.Ai.Ai.maze_solver2(LabProg2019.Maze.maze,System.Int32,System.Int32,System.Int32,System.Int32,Microsoft.FSharp.Core.FSharpOption{System.Boolean})">
+<summary>
+ returns the list of positions to follow tho exit a given maze (algorithm 2)
+</summary>
+</member>
+<member name="M:LabProg2019.Ai.Ai.maze_solver1(LabProg2019.Maze.maze,System.Int32,System.Int32,System.Int32,System.Int32,Microsoft.FSharp.Core.FSharpOption{System.Boolean})">
+<summary>
+ returns the list of positions to follow tho exit a given maze (algorithm 1)
 </summary>
 </member>
 </members>

@@ -4,10 +4,12 @@ open Maze
 
 type Ai () = 
 
+    /// returns the list of positions to follow tho exit a given maze (algorithm 1)
     static member maze_solver1 (m : maze, p_x, p_y, e_x, e_y, ?with_steps) =
         let w_s = defaultArg with_steps false
         let mutable  path_steps = [(p_x, p_y)]
 
+        /// returns the corresponding direection given an int
         let rec int_to_direction (dir : int) =
             match dir with
             |1 -> 0, -1
@@ -16,8 +18,7 @@ type Ai () =
             |4 -> -1, 0
             |_ -> int_to_direction (dir - 4)
 
-        // funzione di generazione dei percorsi del labirinto bastato sul Recursive backtracker
-        
+        /// returns the list of positions to follow
         let rec backtracker (path) = 
             let (x,y) = List.head path
             let n = rnd_int 1 4
@@ -49,12 +50,14 @@ type Ai () =
         if w_s then path_steps
         else l
         
-
+    /// returns the list of positions to follow tho exit a given maze (algorithm 2)
     static member maze_solver2 (m: maze, p_x, p_y, e_x, e_y, ?with_steps)=
         let w_s = defaultArg with_steps false
         let mutable path = []
         let mutable path_steps = []
 
+
+        /// returns a list of positions to follow
         let rec backtracker (l : (int * int) list) =
             let (x, y) = List.head l
             
@@ -76,5 +79,5 @@ type Ai () =
 
         ignore <| backtracker [(p_x, p_y)]
 
-        if w_s then path_steps
+        if w_s then List.append path_steps path
         else List.rev path

@@ -72,7 +72,6 @@
     <Compile Include="Engine.fs" />
     <Compile Include="Ai.fs" />
     <Compile Include="End.fs" />
-    <Compile Include="Demo.fs" />
     <Compile Include="Game_mode1.fs" />
     <Compile Include="Game_mode2.fs" />
     <Compile Include="Game_mode3.fs" />
